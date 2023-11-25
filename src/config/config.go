@@ -20,7 +20,7 @@ func init() {
 }
 
 func LoadConfig() {
-	cfg, err := ini.Load("config/config.ini") // 実行する場所からの相対パス
+	cfg, err := ini.Load("src/config/config.ini") // 実行する場所からの相対パス
 	if err != nil {
 		log.Fatalln(err)
 	}
