@@ -36,3 +36,22 @@ func (u *User) CreateUser() (err error) {
 	}
 	return err
 }
+
+func GetUser(id int) (user User, err error) {
+	user = User{}
+	cmd := `select id, uuid, name, email, password, 
+		created_at from users where id = ?`
+
+	// QueryRow: 単一行クエリ 1レコード分を取得
+	// Scan: QueryRow から取得した1行の結果をスキャンして、変数に格納する
+	err = Db.QueryRow(cmd, id).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&user.Email,
+		&user.PassWord,
+		&user.CreatedAt,
+	)
+
+	return user, err
+}
