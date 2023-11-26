@@ -35,4 +35,15 @@ func main() {
 	// fmt.Println(u)
 	// {1 44242a8c-8ba1-11ee-8768-38f9d35db3a1 test test@example.com 51abb9636078defbf888d8457a7c76f85c8f114c 2023-11-25 23:45:24.42818 +0900 +0900}
 
+	// ユーザの更新
+	// u, _ := models.GetUser(1)
+	// fmt.Println(u)
+
+	// u.Name = "Test2"
+	// u.Email = "test2@example.com"
+
+	// u.UpdateUser()
+	// u, _ = models.GetUser(1)
+
+	// fmt.Print(u)
 }
