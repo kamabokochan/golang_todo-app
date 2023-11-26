@@ -19,12 +19,12 @@ func main() {
 	// usersと表示される
 
 	// ユーザの作成
-	u := &models.User{}
-	u.Name = "test"
-	u.Email = "test@example.com"
-	u.PassWord = "testtest"
+	// u := &models.User{}
+	// u.Name = "test"
+	// u.Email = "test@example.com"
+	// u.PassWord = "testtest"
 	// fmt.Println(u)
-	u.CreateUser()
+	// u.CreateUser()
 	// &{0  test test@example.com testtest 0001-01-01 00:00:00 +0000 UTC}
 	// SELECT * FROM users;
 	// id, uuid, name, email, password, createdAt
@@ -54,6 +54,10 @@ func main() {
 	// fmt.Println(u)
 
 	// TODOの作成
-	user, _ := models.GetUser(2)
-	user.CreateTodo("最初のTODO")
+	// user, _ := models.GetUser(2)
+	// user.CreateTodo("最初のTODO")
+
+	// TODOの取得
+	t, _ := models.GetTodo(1)
+	fmt.Println(t)
 }
