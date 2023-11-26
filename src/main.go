@@ -58,6 +58,12 @@ func main() {
 	// user.CreateTodo("最初のTODO")
 
 	// TODOの取得
-	t, _ := models.GetTodo(1)
-	fmt.Println(t)
+	// t, _ := models.GetTodo(1)
+	// fmt.Println(t)
+
+	// TODOの複数取得
+	// todos, _ := models.GetTodos()
+	// for _, v := range todos {
+	// 	fmt.Println(v)
+	// }
 }
