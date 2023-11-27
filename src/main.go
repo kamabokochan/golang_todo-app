@@ -68,9 +68,14 @@ func main() {
 	// }
 
 	// ユーザ毎のTODO取得
-	user, _ := models.GetUser(3)
-	todos, _ := user.GetTodoByUser()
-	for _, v := range todos {
-		fmt.Println(v)
-	}
+	// user, _ := models.GetUser(2)
+	// todos, _ := user.GetTodoByUser()
+	// for _, v := range todos {
+	// 	fmt.Println(v)
+	// }
+
+	// TODOの更新
+	// t, _ := models.GetTodo(2)
+	// t.Content = "アップデートTODO"
+	// t.UpdateTodo()
 }
