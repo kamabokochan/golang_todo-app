@@ -66,4 +66,11 @@ func main() {
 	// for _, v := range todos {
 	// 	fmt.Println(v)
 	// }
+
+	// ユーザ毎のTODO取得
+	user, _ := models.GetUser(3)
+	todos, _ := user.GetTodoByUser()
+	for _, v := range todos {
+		fmt.Println(v)
+	}
 }

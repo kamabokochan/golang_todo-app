@@ -1,3 +1,5 @@
 2023/11/25 20:53:59 main.go:15: test
 2023/11/25 23:39:52 users.go:35: sql: converting argument $1 type: unsupported type func() uuid.UUID, a func
 2023/11/25 23:40:44 users.go:35: near ")": syntax error
+2023/11/27 20:35:55 todos.go:77: no such column: iser_id
+2023/11/27 20:36:17 todos.go:87: sql: expected 4 destination arguments in Scan, not 3
