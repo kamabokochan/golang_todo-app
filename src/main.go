@@ -78,4 +78,8 @@ func main() {
 	// t, _ := models.GetTodo(2)
 	// t.Content = "アップデートTODO"
 	// t.UpdateTodo()
+
+	// TODOの削除
+	// t, _ := models.GetTodo(1)
+	// t.DeleteTodo()
 }
