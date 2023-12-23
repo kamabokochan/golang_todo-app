@@ -14,6 +14,14 @@ type User struct {
 	CreatedAt time.Time
 }
 
+type Session struct {
+	ID        int
+	UUID      string
+	Email     string
+	UserID    int
+	CreatedAt time.Time
+}
+
 func (u *User) CreateUser() (err error) {
 	// qmark style (?,?,?) 引数を渡している
 	cmd := `insert into users (
@@ -72,4 +80,47 @@ func (u *User) DeleteUser() (err error) {
 		log.Fatalln(err)
 	}
 	return err
+}
+
+func GetUserByEmail(email string) (user User, err error) {
+	user = User{}
+	cmd := `select id, uuid, name, email, password, created_at
+	from users where email = ?`
+	err = Db.QueryRow(cmd, email).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&user.Email,
+		&user.PassWord,
+		&user.CreatedAt)
+
+	return user, err
+}
+
+func (u *User) CreateSession() (session Session, err error) {
+	session = Session{}
+	// セッション作成
+	insertSessionCMD := `insert into sessions (
+		uuid,
+		email,
+		user_id,
+		created_at) values (?, ?, ?, ?)`
+
+	_, err = Db.Exec(insertSessionCMD, createUUID(), u.Email, u.ID, time.Now())
+	if err != nil {
+		log.Println(err)
+	}
+
+	// user_idとemailが一致するセッションを取得
+	getSessionCMD := `select id, uuid, email, user_id, created_at
+		from sessions where user_id = ? and email = ?`
+
+	err = Db.QueryRow(getSessionCMD, u.ID, u.Email).Scan(
+		&session.ID,
+		&session.UUID,
+		&session.Email,
+		&session.UserID,
+		&session.CreatedAt)
+
+	return session, err
 }
