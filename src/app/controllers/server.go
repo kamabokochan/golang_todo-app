@@ -3,6 +3,8 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"regexp"
+	"strconv"
 	"text/template"
 	"todo_app/src/app/models"
 	"todo_app/src/config"
@@ -39,6 +41,26 @@ func session(w http.ResponseWriter, r *http.Request) (s models.Session, err erro
 	return s, err
 }
 
+var validPath = regexp.MustCompile("^/todos/(edit|update)/([0-9]+)$")
+
+func parseURL(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// /todos/edit/1
+		q := validPath.FindStringSubmatch(r.URL.Path)
+		if q == nil {
+			http.NotFound(w, r)
+			return
+		}
+		qi, err := strconv.Atoi(q[2])
+		if err != nil {
+			http.NotFound(w, r)
+			return
+		}
+
+		fn(w, r, qi)
+	}
+}
+
 func StartMainServer() error {
 	// 公開したいディレクトリを指定
 	files := http.FileServer(http.Dir(config.Config.Static))
@@ -53,5 +75,7 @@ func StartMainServer() error {
 	http.HandleFunc("/todos", index)
 	http.HandleFunc("/todos/new", todoNew)
 	http.HandleFunc("/todos/save", todoSave)
+	http.HandleFunc("/todos/edit/", parseURL(todoEdit)) // handler関数に引数idを渡すため、edit/と最後に/をつけている
+	http.HandleFunc("/todos/update/", parseURL(todoUpdate))
 	return http.ListenAndServe(":"+config.Config.Port, nil)
 }
