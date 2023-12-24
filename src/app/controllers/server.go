@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"text/template"
+	"todo_app/src/app/models"
 	"todo_app/src/config"
 )
 
@@ -25,6 +26,19 @@ func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 	templates.ExecuteTemplate(w, "layout", data)
 }
 
+func session(w http.ResponseWriter, r *http.Request) (s models.Session, err error) {
+	cookie, err := r.Cookie("myapp_uuid")
+	if err != nil {
+		return s, err
+	}
+
+	s = models.Session{UUID: cookie.Value}
+	if ok, _ := s.CheckSession(); !ok {
+		err = fmt.Errorf("Invalid session")
+	}
+	return s, err
+}
+
 func StartMainServer() error {
 	// 公開したいディレクトリを指定
 	files := http.FileServer(http.Dir(config.Config.Static))
@@ -35,5 +49,6 @@ func StartMainServer() error {
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/authenticate", authenticate)
+	http.HandleFunc("/todos", index)
 	return http.ListenAndServe(":"+config.Config.Port, nil)
 }
